@@ -24,6 +24,12 @@ public class LastPlug : MonoBehaviour
         movePosition = gdlObject;
         changePos = true;
     }
+
+    public void ReturnToSocket( GameObject socket)
+    {
+        socketKnd = socket;
+        socketSit = true;
+    }
     void Start()
     {
         

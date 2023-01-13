@@ -49,11 +49,16 @@ public class GameManager : MonoBehaviour
 
                             selectedObject = null;
                             selectedSocket =null;
+                            isMove = true;
                         }
-                        //else if (expr)
-                        //{
-                            
-                        //}
+                        else if (selectedSocket == hit.collider.gameObject)
+                        {
+                            selectedObject.GetComponent<LastPlug>().ReturnToSocket(hit.collider.gameObject);
+
+                            selectedObject = null;
+                            selectedSocket = null;
+                            isMove = true;
+                        }
                           
                         
                     }
