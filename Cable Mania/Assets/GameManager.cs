@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    
+    private GameObject selectedObject;
+    private GameObject selectedSocket;
+    public bool isMove;
+
     void Start()
     {
         
@@ -18,13 +21,44 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out RaycastHit hit,100))
             {
                 if (hit.collider !=null)
-                {
-                    if (hit.collider.CompareTag("BluePlug") || hit.collider.CompareTag("YellowPlug") || hit.collider.CompareTag("RedPlug"))
+                { // ## Last Plug
+                    if (selectedObject==null && !isMove)
                     {
-                        hit.collider.GetComponent<LastPlug>().SelectionPositon(hit.collider.GetComponent<LastPlug>().availableSocket.GetComponent<Socket>().movePosition, hit.collider.GetComponent<LastPlug>().availableSocket);
+                        if (hit.collider.CompareTag("BluePlug") || hit.collider.CompareTag("YellowPlug") || hit.collider.CompareTag("RedPlug"))
+                        {
+                            LastPlug _lastPlug = hit.collider.GetComponent<LastPlug>();
+                            _lastPlug.SelectionPositon(_lastPlug.availableSocket.GetComponent<Socket>().movePosition, _lastPlug.availableSocket);
+                            selectedObject=hit.collider.gameObject;
+                            selectedSocket=_lastPlug.availableSocket;
+                            isMove = true;
 
+                        }
+                    }
+                    // ## Last Plug
+
+                    // ## Socket
+
+                    if (hit.collider.CompareTag("Socket"))
+                    {
+                        if (selectedObject!=null && !hit.collider.GetComponent<Socket>().full && selectedSocket!=hit.collider.gameObject)
+                        {
+                            selectedSocket.GetComponent<Socket>().full = false;
+                            Socket _socket = hit.collider.GetComponent<Socket>();
+                            selectedObject.GetComponent<LastPlug>().ChangePositon(_socket.movePosition,hit.collider.gameObject);
+                            _socket.full =true;
+
+                            selectedObject = null;
+                            selectedSocket =null;
+                        }
+                        //else if (expr)
+                        //{
+                            
+                        //}
+                          
                         
                     }
+
+                    // ## Socket
                 }
             }
         }

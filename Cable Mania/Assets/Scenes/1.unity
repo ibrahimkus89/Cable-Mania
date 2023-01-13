@@ -1288,7 +1288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &194095229
 Transform:
   m_ObjectHideFlags: 0
@@ -1724,6 +1724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004756235090b504b98de8b367cb64a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMove: 0
 --- !u!4 &214916362
 Transform:
   m_ObjectHideFlags: 0
@@ -3302,7 +3303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f1c54701d4c3443932e83edf5c7b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableSocket: {fileID: 0}
+  availableSocket: {fileID: 436018630}
   socketColor: RedSocket
   _gameManager: {fileID: 214916361}
 --- !u!1 &374215370
@@ -6673,7 +6674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f1c54701d4c3443932e83edf5c7b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableSocket: {fileID: 0}
+  availableSocket: {fileID: 2036152567}
   socketColor: YellowSocket
   _gameManager: {fileID: 214916361}
 --- !u!1 &1100888128
@@ -11337,7 +11338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba8ae53c8bdcc94f8e7a92f3279744c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  full: 0
+  full: 1
   movePosition: {fileID: 1639439683}
 --- !u!1 &2101653050
 GameObject:
@@ -12711,7 +12712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba8ae53c8bdcc94f8e7a92f3279744c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  full: 0
+  full: 1
   movePosition: {fileID: 1672327114}
 --- !u!33 &9104961492433322767
 MeshFilter:
