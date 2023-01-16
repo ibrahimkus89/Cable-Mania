@@ -5,7 +5,7 @@ using UnityEngine;
 public class LastPlug : MonoBehaviour
 { 
     public GameObject availableSocket;
-    [SerializeField] private string socketColor;
+    public string socketColor;
     [SerializeField] private GameManager _gameManager;
 
     private bool changePos,chosen,socketSit;
@@ -66,6 +66,7 @@ public class LastPlug : MonoBehaviour
                 socketSit = false;
                 _gameManager.isMove = false;
                 availableSocket = socketKnd;
+                _gameManager.CheckPlug();
             }
         }
     }

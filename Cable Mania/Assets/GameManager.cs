@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,12 +8,45 @@ public class GameManager : MonoBehaviour
     private GameObject selectedObject;
     private GameObject selectedSocket;
     public bool isMove;
+    [Header("----LEVEL SETTINGS")]
+    public GameObject[] collisionControlObjects;
+    public GameObject[] Plugs;
+    public int Targetsys;
+    public bool[] collisionSituation;
+    private int completionsys;
 
     void Start()
     {
         
     }
 
+    public void CheckPlug()
+    {
+        foreach (var item in Plugs)
+        {
+            if (item.GetComponent<LastPlug>().availableSocket.name==item.GetComponent<LastPlug>().socketColor)
+            {
+                completionsys++;
+            } 
+        }
+
+        if (completionsys==Targetsys)
+        {
+            Debug.Log("All scokets in place");
+
+            foreach (var item in collisionControlObjects)
+            {
+                item.SetActive(true);
+            }
+
+        }
+        else
+        {
+            Debug.Log("not completed");
+        }
+
+        completionsys =0;
+    }
     
     void Update()
     {
@@ -66,6 +100,21 @@ public class GameManager : MonoBehaviour
                     // ## Socket
                 }
             }
+        }
+    }
+
+    public void CollisionControl(int collisonIndex,bool situation)
+    {
+        collisionSituation[collisonIndex]= situation;
+
+        if (collisionSituation[0] && collisionSituation[1])
+        {
+            Debug.Log("Win");
+        }
+        else
+        {
+            Debug.Log("Collision Detected");
+
         }
     }
 }
