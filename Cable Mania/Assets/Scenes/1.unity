@@ -1733,7 +1733,7 @@ MonoBehaviour:
   - {fileID: 1100019708}
   - {fileID: 363900683}
   Targetsys: 3
-  collisionSituation: 0000
+  collisionSituation: 
 --- !u!4 &214916362
 Transform:
   m_ObjectHideFlags: 0

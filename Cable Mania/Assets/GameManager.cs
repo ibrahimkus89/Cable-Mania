@@ -12,13 +12,17 @@ public class GameManager : MonoBehaviour
     public GameObject[] collisionControlObjects;
     public GameObject[] Plugs;
     public int Targetsys;
-    public bool[] collisionSituation;
+    public List<bool> collisionSituation;
     private int completionsys;
+    private int collisionControlSys;
 
     private LastPlug _lastPlug;
     void Start()
     {
-        
+        for (int i = 0; i < Targetsys-1; i++)
+        {
+            collisionSituation.Add(false);
+        }
     }
 
     public void CheckPlug()
@@ -33,13 +37,14 @@ public class GameManager : MonoBehaviour
 
         if (completionsys==Targetsys)
         {
-            Debug.Log("All scokets in place");
+            //Debug.Log("All scokets in place");
 
-            foreach (var item in collisionControlObjects)
+            foreach (var itemm in collisionControlObjects)
             {
-                item.SetActive(true);
+                itemm.SetActive(true);
             }
 
+            StartCoroutine(CollisionVrm());
         }
         else
         {
@@ -110,15 +115,34 @@ public class GameManager : MonoBehaviour
     public void CollisionControl(int collisonIndex,bool situation)
     {
         collisionSituation[collisonIndex]= situation;
+    }
 
-        if (collisionSituation[0] && collisionSituation[1])
-        {
-            Debug.Log("Win");
-        }
-        else
-        {
-            Debug.Log("Collision Detected");
+    IEnumerator CollisionVrm()
+    {
+        Debug.Log("being checked");
+        yield return new WaitForSeconds(4f);
 
+        foreach (var item in collisionSituation)
+        {
+            if (item)
+            {
+                collisionControlSys++;
+            }
+
+            if (collisionControlSys==collisionSituation.Count)
+            {
+                Debug.Log("Win");
+            }
+            else
+            {
+                Debug.Log("Collision Detected");
+                foreach (var itemm in collisionControlObjects)
+                {
+                    itemm.SetActive(false);
+                }
+            }
         }
+
+        collisionControlSys = 0;
     }
 }
