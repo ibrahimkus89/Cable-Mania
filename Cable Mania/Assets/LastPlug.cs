@@ -12,30 +12,27 @@ public class LastPlug : MonoBehaviour
 
     private GameObject movePosition;
     private GameObject socketKnd;
-    public void SelectionPositon(GameObject gdlObject, GameObject socket)
-    {
-        movePosition =gdlObject;
-        chosen = true;
-    }
 
-    public void ChangePositon(GameObject gdlObject, GameObject socket)
+    public void Move(string process, GameObject socket, GameObject gdlObject = null)
     {
-        socketKnd = socket;
-        movePosition = gdlObject;
-        changePos = true;
+        switch (process)
+        {
+            case "Selection":
+                movePosition = gdlObject;
+                chosen = true;
+                break;
+            case "ChangePosition":
+                socketKnd = socket;
+                movePosition = gdlObject;
+                changePos = true;
+                break;
+            case "ReturnToSocket":
+                socketKnd = socket;
+                socketSit = true;
+                break;
+        }
     }
-
-    public void ReturnToSocket( GameObject socket)
-    {
-        socketKnd = socket;
-        socketSit = true;
-    }
-    void Start()
-    {
-        
-    }
-
-   
+    
     void Update()
     {
         if (chosen)

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool[] collisionSituation;
     private int completionsys;
 
+    private LastPlug _lastPlug;
     void Start()
     {
         
@@ -60,9 +61,10 @@ public class GameManager : MonoBehaviour
                     {
                         if (hit.collider.CompareTag("BluePlug") || hit.collider.CompareTag("YellowPlug") || hit.collider.CompareTag("RedPlug"))
                         {
-                            LastPlug _lastPlug = hit.collider.GetComponent<LastPlug>();
-                            _lastPlug.SelectionPositon(_lastPlug.availableSocket.GetComponent<Socket>().movePosition, _lastPlug.availableSocket);
-                            selectedObject=hit.collider.gameObject;
+                             _lastPlug = hit.collider.GetComponent<LastPlug>();
+                             _lastPlug.Move("Selection", _lastPlug.availableSocket, _lastPlug.availableSocket.GetComponent<Socket>().movePosition);
+
+                             selectedObject=hit.collider.gameObject;
                             selectedSocket=_lastPlug.availableSocket;
                             isMove = true;
 
@@ -78,7 +80,9 @@ public class GameManager : MonoBehaviour
                         {
                             selectedSocket.GetComponent<Socket>().full = false;
                             Socket _socket = hit.collider.GetComponent<Socket>();
-                            selectedObject.GetComponent<LastPlug>().ChangePositon(_socket.movePosition,hit.collider.gameObject);
+
+
+                            _lastPlug.Move("ChangePosition", hit.collider.gameObject, _socket.movePosition);
                             _socket.full =true;
 
                             selectedObject = null;
@@ -87,7 +91,7 @@ public class GameManager : MonoBehaviour
                         }
                         else if (selectedSocket == hit.collider.gameObject)
                         {
-                            selectedObject.GetComponent<LastPlug>().ReturnToSocket(hit.collider.gameObject);
+                            _lastPlug.Move("ReturnToSocket", hit.collider.gameObject);
 
                             selectedObject = null;
                             selectedSocket = null;
