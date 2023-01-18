@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] Plugs;
     [SerializeField] private int Targetsys;
     [SerializeField] private List<bool> collisionSituation;
+    [SerializeField] private int RightofMove;
+
 
     private int completionsys;
     private int collisionControlSys;
@@ -26,9 +28,12 @@ public class GameManager : MonoBehaviour
     [Header("----UI OBJECTS")]
     [SerializeField] private GameObject controlPanel;
     [SerializeField] private TextMeshProUGUI controlText;
+    [SerializeField] private TextMeshProUGUI RightofMoveText;
+
 
     void Start()
     {
+        RightofMoveText.text ="MOVES : " + RightofMove.ToString();
         for (int i = 0; i < Targetsys-1; i++)
         {
             collisionSituation.Add(false);
@@ -58,6 +63,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            if (RightofMove<=0)
+            {
+                Debug.Log("Right of move is over");
+            }
+
             Debug.Log("not completed");
         }
 
@@ -103,6 +113,9 @@ public class GameManager : MonoBehaviour
                             selectedObject = null;
                             selectedSocket =null;
                             isMove = true;
+                            RightofMove--;
+                            RightofMoveText.text = "MOVES : " + RightofMove.ToString();
+
                         }
                         else if (selectedSocket == hit.collider.gameObject)
                         {
@@ -162,6 +175,11 @@ public class GameManager : MonoBehaviour
                 foreach (var itemm in collisionControlObjects)
                 {
                     itemm.SetActive(false);
+                }
+
+                if (RightofMove<=0)
+                {
+                    Debug.Log("Right of move is over");
                 }
             }
         }
