@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,14 +10,23 @@ public class GameManager : MonoBehaviour
     private GameObject selectedSocket;
     public bool isMove;
     [Header("----LEVEL SETTINGS")]
-    public GameObject[] collisionControlObjects;
-    public GameObject[] Plugs;
-    public int Targetsys;
-    public List<bool> collisionSituation;
+    [SerializeField] private GameObject[] collisionControlObjects;
+    [SerializeField] private GameObject[] Plugs;
+    [SerializeField] private int Targetsys;
+    [SerializeField] private List<bool> collisionSituation;
+
     private int completionsys;
     private int collisionControlSys;
-
     private LastPlug _lastPlug;
+
+    [Header("----OTHER OBJECTS")]
+    [SerializeField] private GameObject[] Lights;
+
+
+    [Header("----UI OBJECTS")]
+    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private TextMeshProUGUI controlText;
+
     void Start()
     {
         for (int i = 0; i < Targetsys-1; i++)
@@ -119,7 +129,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CollisionVrm()
     {
-        Debug.Log("being checked");
+        Lights[0].SetActive(false);
+        Lights[1].SetActive(true);
+
+        controlPanel.SetActive(true);
+        controlText.text = "Being Checked...";
+
+        
         yield return new WaitForSeconds(4f);
 
         foreach (var item in collisionSituation)
@@ -131,11 +147,18 @@ public class GameManager : MonoBehaviour
 
             if (collisionControlSys==collisionSituation.Count)
             {
-                Debug.Log("Win");
+                Lights[1].SetActive(false);
+                Lights[2].SetActive(true);
+                controlText.text = "WIN";
+                // win panel
+
             }
             else
             {
-                Debug.Log("Collision Detected");
+                Lights[1].SetActive(false);
+                Lights[0].SetActive(true);
+                controlText.text = "Collision Detected";
+                Invoke("CloseThePanel",2f);
                 foreach (var itemm in collisionControlObjects)
                 {
                     itemm.SetActive(false);
@@ -144,5 +167,10 @@ public class GameManager : MonoBehaviour
         }
 
         collisionControlSys = 0;
+    }
+
+    void CloseThePanel()
+    {
+        controlPanel.SetActive(false);
     }
 }
