@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int Targetsys;
     [SerializeField] private List<bool> collisionSituation;
     [SerializeField] private int RightofMove;
+    [SerializeField] private TextMeshProUGUI[] UItexts;
 
 
     private int completionsys;
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
     [Header("----UI OBJECTS")]
     [SerializeField] private GameObject controlPanel;
     [SerializeField] private TextMeshProUGUI controlText;
+    [SerializeField] private GameObject[] GnlPanels;
     [SerializeField] private TextMeshProUGUI RightofMoveText;
 
 
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
         {
             collisionSituation.Add(false);
         }
+
+        UItexts[3].text = PlayerPrefs.GetInt("Money").ToString();
     }
 
     public void CheckPlug()
@@ -66,10 +71,10 @@ public class GameManager : MonoBehaviour
         {
             if (RightofMove<=0)
             {
-                Debug.Log("Right of move is over");
+                Lost();
             }
 
-            Debug.Log("not completed");
+            
         }
 
         completionsys =0;
@@ -162,10 +167,11 @@ public class GameManager : MonoBehaviour
 
             if (collisionControlSys==collisionSituation.Count)
             {
-                Lights[1].SetActive(false);
-                Lights[2].SetActive(true);
-                controlText.text = "WIN";
-                // win panel
+                //Lights[1].SetActive(false);
+                //Lights[2].SetActive(true);
+                //controlText.text = "WIN";
+                
+                Win();
 
             }
             else
@@ -181,7 +187,7 @@ public class GameManager : MonoBehaviour
 
                 if (RightofMove<=0)
                 {
-                    Debug.Log("Right of move is over");
+                    Lost();
                 }
             }
         }
@@ -197,5 +203,59 @@ public class GameManager : MonoBehaviour
     public void PlayPlugSound()
     {
         PlugSound.Play();
+    }
+
+    public void ButtonOperations(string Valuee)
+    {
+        switch (Valuee)
+        {
+            case "Pause": 
+                GnlPanels[0].SetActive(true);
+                Time.timeScale = 0;
+                break;
+            case "Resume":
+                GnlPanels[0].SetActive(false);
+                Time.timeScale = 1;
+                break;
+            case "TryAgain":
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Time.timeScale = 1;
+                break;
+            case "NextLevel":
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                Time.timeScale = 1;
+                break;
+            case "Settings":
+                // optional
+            break;
+            case "Exit":
+                Application.Quit();
+                break;
+                
+
+        }
+    }
+
+    void Win()
+    {
+        Lights[1].SetActive(false);
+        Lights[2].SetActive(true);
+        PlayerPrefs.SetInt("Level",PlayerPrefs.GetInt("Level")+1);
+        UItexts[0].text="LEVEL : " +SceneManager.GetActiveScene().name;
+        controlText.text = "YOU WIN";
+
+        int randomMoney = Random.Range(5, 20);
+        PlayerPrefs.SetInt("Money",PlayerPrefs.GetInt("Money")+randomMoney);
+        UItexts[2].text = "MONEY : " + randomMoney;
+        GnlPanels[1].SetActive(true);
+        Time.timeScale = 0;
+
+    }
+
+    void Lost()
+    {
+        UItexts[1].text = "LEVEL : " + SceneManager.GetActiveScene().name;
+        GnlPanels[2].SetActive(true);
+        Time.timeScale = 0;
     }
 }
